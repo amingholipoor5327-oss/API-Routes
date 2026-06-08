@@ -27,7 +27,7 @@ export async function GET(request) {
 
 export async function POST(request) {
 try{
-    let requa = request.JSON()
+    let requa =  await request.json()
     Products.push(requa)
     return new Response(
         JSON.stringify(Products),
@@ -44,5 +44,48 @@ try{
               headers: { "Content-Type": "application/json" }
         }
         )
+    }
+}
+
+
+export async function PUT(request) {
+    try {
+        const updatedProduct = await request.json();
+        
+         const index = Products.findIndex(
+            (product) => product.name === updatedProduct.name
+        );
+        
+         if (index === -1) {
+            return new Response(
+                JSON.stringify({ alert: "product not found" }),
+                {
+                    status: 404,
+                    headers: { "Content-Type": "application/json" }
+                }
+            );
+        }
+        
+         Products[index] = updatedProduct;
+        
+         return new Response(
+            JSON.stringify({ 
+                message: "product updated successfully",
+                product: Products[index] 
+            }),
+            {
+                status: 200,
+                headers: { "Content-Type": "application/json" }
+            }
+        );
+        
+    } catch (error) {
+         return new Response(
+            JSON.stringify({ error: error.message }),
+            {
+                status: 500,
+                headers: { "Content-Type": "application/json" }
+            }
+        );
     }
 }
