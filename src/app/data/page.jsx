@@ -12,6 +12,18 @@ const [price , setPrice] = useState("");
     .catch((error)=>console.error(error))
 }
 
+function HandelMethod(){
+    fetch("http://localhost:3000/api/products" , {
+        method : "POST", 
+        headers : {"Content-Type" : "application/json"},
+        body : JSON.stringify({name : namevalue , price : price})
+    }
+    )
+    .then((res)=>res.json())
+    .then((data)=>{console.log(data)})
+    .catch((error)=>console.error(error))
+}
+
 useEffect(
     ()=>{
         Goapiaddres()
@@ -40,13 +52,19 @@ return (<div>
         value={namevalue}
         onChange={(e)=>setNamevalue(e.target.value)}
         ></input>
-
+         
           <input 
         type="text"
         placeholder="write your price..."
         value={price}
         onChange={(e)=>setPrice(e.target.value)}
         ></input>
+
+        <button onClick={()=>{
+            HandelMethod 
+            setNamevalue("")
+            setPrice("")
+        }}>Add</button>
      </div>
 </div>)
 }
