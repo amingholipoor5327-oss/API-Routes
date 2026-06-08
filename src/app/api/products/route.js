@@ -24,3 +24,25 @@ export async function GET(request) {
         )
     }
 }
+
+export async function POST(request) {
+try{
+    let requa = request.JSON()
+    Products.push(requa)
+    return new Response(
+        JSON.stringify(Products),
+        {
+            status: 200  , 
+              headers: { "Content-Type": "application/json" }
+        }
+    )
+    }catch(error){
+        return new Response(
+            JSON.stringify({error : error.message}), 
+              {
+            status: 400  , 
+              headers: { "Content-Type": "application/json" }
+        }
+        )
+    }
+}
