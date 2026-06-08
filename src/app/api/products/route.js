@@ -51,41 +51,47 @@ try{
 export async function PUT(request) {
     try {
         const updatedProduct = await request.json();
-        
-         const index = Products.findIndex(
-            (product) => product.name === updatedProduct.name
+
+        const index = Products.findIndex(
+            (product) => product.id === updatedProduct.id
         );
-        
-         if (index === -1) {
-            return new Response(
-                JSON.stringify({ alert: "product not found" }),
-                {
-                    status: 404,
-                    headers: { "Content-Type": "application/json" }
-                }
+
+        if (index === -1) {
+            return Response.json(
+                { message: "Product not found" },
+                { status: 404 }
             );
         }
-        
-         Products[index] = updatedProduct;
-        
-         return new Response(
-            JSON.stringify({ 
-                message: "product updated successfully",
-                product: Products[index] 
-            }),
-            {
-                status: 200,
-                headers: { "Content-Type": "application/json" }
-            }
-        );
-        
+
+        Products[index] = {
+            ...Products[index],
+            ...updatedProduct
+        };
+
+        return Response.json({
+            message: "Product updated successfully",
+            product: Products[index]
+        });
+
     } catch (error) {
-         return new Response(
-            JSON.stringify({ error: error.message }),
-            {
-                status: 500,
-                headers: { "Content-Type": "application/json" }
-            }
+        return Response.json(
+            { error: error.message },
+            { status: 500 }
         );
     }
+}
+
+
+export async function DELETE(request){
+    let requested = await request.json()
+    let  newdata = Products.filter(
+        (p)=>p.id !== requested.id
+    )
+    return new Response(
+        JSON.stringify(newdata),
+        {
+             status: 200,
+                headers: { "Content-Type": "application/json" } 
+        }
+    )
 }
