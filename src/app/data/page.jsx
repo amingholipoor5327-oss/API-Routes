@@ -5,6 +5,7 @@ export default function Pageproducts(){
 const [data , setData] = useState([]);
 const [namevalue , setNamevalue] = useState("");
 const [price , setPrice] = useState("");
+
  function Goapiaddres(){
     fetch("http://localhost:3000/api/products")
     .then((res)=>res.json())
@@ -19,8 +20,7 @@ function HandelMethod(){
         body : JSON.stringify({name : namevalue , price : price})
     }
     )
-    .then((res)=>res.json())
-    .then((data)=>{console.log(data)})
+    .then( Goapiaddres)
     .catch((error)=>console.error(error))
 }
 
@@ -61,7 +61,7 @@ return (<div>
         ></input>
 
         <button onClick={()=>{
-            HandelMethod 
+            HandelMethod()
             setNamevalue("")
             setPrice("")
         }}>Add</button>
