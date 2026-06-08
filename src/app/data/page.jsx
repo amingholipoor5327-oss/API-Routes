@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import "./style.css"
 export default function Pageproducts(){
 
 const [data , setData] = useState([]);
