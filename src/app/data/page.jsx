@@ -8,14 +8,14 @@ const [namevalue , setNamevalue] = useState("");
 const [price , setPrice] = useState("");
 
  function Goapiaddres(){
-    fetch("http://localhost:3000/api/products")
+    fetch("/api/products")
     .then((res)=>res.json())
     .then((data)=>setData(data))
     .catch((error)=>console.error(error))
 }
 
 function HandelMethod(){
-    fetch("http://localhost:3000/api/products" , {
+    fetch("/api/products" , {
         method : "POST", 
         headers : {"Content-Type" : "application/json"},
         body : JSON.stringify({name : namevalue , price : price})
