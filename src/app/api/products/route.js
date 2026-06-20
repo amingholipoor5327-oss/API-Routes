@@ -82,16 +82,38 @@ export async function PUT(request) {
 }
 
 
-export async function DELETE(request){
-    let requested = await request.json()
-    let  newdata = Products.filter(
-        (p)=>p.id !== requested.id
-    )
-    return new Response(
-        JSON.stringify(newdata),
-        {
-             status: 200,
-                headers: { "Content-Type": "application/json" } 
-        }
-    )
+export async function DELETE(request) {
+    try {
+        const requested = await request.json();
+
+        Products = Products.filter(
+            (p) => p.id !== requested.id
+        );
+
+        return new Response(
+            JSON.stringify({
+                message: "محصول با موفقیت حذف شد",
+                products: Products
+            }),
+            {
+                status: 200,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+    } catch (error) {
+        return new Response(
+            JSON.stringify({
+                error: error.message
+            }),
+            {
+                status: 500,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+    }
 }
